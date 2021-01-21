@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> HW1 Problem 2</title>
+        
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <style>
+            #value{
+                color:red;
+            }
+            #chart_div
+            {
+                width:800px;
+                height:500px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="problem2">  </div>
+        <div id="chart_div"></div>
+    </body>
+
+    <script>
+        prob2();
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() 
+        {
+            let data = google.visualization.arrayToDataTable(calculateData(-5,50));
+            let options = {
+            title: 'Velocity as a Function of Time',
+            legend: {position: 'none'},
+            hAxis: {title: 'Time'},
+            vAxis: {title: 'Velocity'},
+            };
+            let chart = new google.visualization.LineChart(document.getElementById("chart_div"));
+            chart.draw(data, options);
+        }
+
+        function prob2()
+        {
+            let linebreak = document.createElement("br");
+            let prob2= document.getElementById("problem2");
+
+            let probDescription = document.createElement("div");
+            probDescription.innerHTML="Problem 2: Piecewise Functions";
+            prob2.appendChild(probDescription);
+            prob2.appendChild(linebreak.cloneNode(true));
+
+            let tdescription=document.createElement("label");
+            tdescription.innerHTML="Enter time:";
+            let tInput=document.createElement("input");
+            tInput.setAttribute("type", "text");
+            tInput.id="tval";
+            tInput.value=30;
+            prob2.appendChild(tdescription);
+            prob2.appendChild(tInput);
+            prob2.appendChild(linebreak.cloneNode(true));
+
+            let calculateBtn = document.createElement("button");
+            calculateBtn.innerHTML = "Calculate";
+            calculateBtn.addEventListener("click", showAnswer);
+            prob2.appendChild(calculateBtn);
+        }
+
+        function showAnswer()
+        {
+            if(document.getElementById("answer"))
+                document.getElementById("answer").remove();
+
+            let prob2 = document.getElementById("problem2");
+            let velocity = calculate(parseFloat(document.getElementById("tval").value));
+            let answer = document.createElement("div");
+            let desc= document.createElement("div");
+            answer.innerHTML=velocity;
+            desc.innerHTML="The velocity at the given time is: ";
+            desc.id="answer";
+            answer.id="value";
+            desc.appendChild(answer);
+            prob2.appendChild(desc);
+        }
+
+        function calculateData(start, end)
+        {
+            let data=[];
+            data.push(["Time", "Velocity"]);
+            let increment = (end - start)/100;
+            for(let i = start; i<=end; i+=increment)
+                data.push([i, calculate(i)]);
+            return data;
+        }
+
+        function calculate(t)
+        {
+            if(t<0)
+                return 0;
+            else if(t<=10)
+                return 11*t*t-5*t;
+            else if(t<=20)
+                return 1100-5*t;
+            else if(t<=30)
+                return 50*t+2*Math.pow(t-20,2);
+            else if(t>30)
+                return 1520 * Math.pow(Math.E, -.2*(t-30));
+        }
+
+    </script>
+</html>

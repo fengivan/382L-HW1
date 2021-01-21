@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> HW1 Problem 1</title>
+        
+        <style>
+            table, th, td 
+            {
+                border: 2px solid black;
+            }
+            table 
+            {
+                width: 25%;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="problem1">  </div>
+    </body>
+
+    <script>
+        prob1();
+
+        function prob1()
+        {
+            let linebreak = document.createElement("br");
+            let prob1 = document.getElementById("problem1");
+
+            let probDescription = document.createElement("div");
+            probDescription.innerHTML="Problem 1: sine function as an infinite series";
+            prob1.appendChild(probDescription);
+            prob1.appendChild(linebreak.cloneNode(true));
+
+            let xdescription=document.createElement("label");
+            xdescription.innerHTML="Enter value to calculate: ";
+            let xInput=document.createElement("input");
+            xInput.setAttribute("type", "text");
+            xInput.id="xval";
+            xInput.value=1.5;
+            prob1.appendChild(xdescription);
+            prob1.appendChild(xInput);
+            prob1.appendChild(linebreak.cloneNode(true));
+
+            let termsDescription=document.createElement("label");
+            termsDescription.innerHTML="Enter number of terms: ";
+            let terms=document.createElement("input");
+            terms.id="terms";
+            terms.setAttribute("type", "text");
+            terms.value=8;
+            prob1.appendChild(termsDescription);
+            prob1.appendChild(terms);
+            prob1.appendChild(linebreak.cloneNode(true));
+
+            let calculateBtn = document.createElement("button");
+            calculateBtn.innerHTML = "Calculate";
+            calculateBtn.addEventListener("click", calculate);
+            prob1.appendChild(calculateBtn);
+        }
+        function calculate()
+        {
+            if(document.getElementById("table"))
+                document.getElementById("table").remove();
+
+            let prob1 = document.getElementById("problem1");
+
+            let x=parseFloat(document.getElementById("xval").value);
+            let terms=parseInt(document.getElementById("terms").value);
+            let value =0.0;
+
+            let table = document.createElement("table");
+            table.id="table";
+            let header=document.createElement("tr");
+            let termHead = document.createElement("th");
+            termHead.innerHTML="Term Number";
+            header.appendChild(termHead);
+            let xHead=document.createElement("th");
+            xHead.innerHTML="X value";
+            header.appendChild(xHead);
+            let errorHead=document.createElement("th");
+            errorHead.innerHTML="Percent Error";
+            header.appendChild(errorHead);
+            table.appendChild(header);
+
+            for(let i =1; i<=terms; i++) 
+            {
+                value += Math.pow(-1, i-1)*(Math.pow(x, 2*i-1)/fact(2*i-1));                //sums up the series
+
+                let row= document.createElement("tr");
+                let term=document.createElement("td");
+                term.innerHTML=i;
+                let xval = document.createElement("td");
+                xval.innerHTML=value.toFixed(5);
+                let error=document.createElement("td");
+                error.innerHTML=((Math.sin(x)-value)*100/Math.sin(x)).toFixed(5);
+                row.appendChild(term);
+                row.appendChild(xval);
+                row.appendChild(error);
+                table.appendChild(row);
+            }
+            prob1.appendChild(table);
+        }
+        function fact(num) //returns the factorial of a number
+        {
+            if(num<0)
+                return num;
+            if (num == 0) 
+                return 1;
+            else {
+                return (num*fact(num-1));
+            }
+        }
+
+      
+
+
+    </script>
+</html>

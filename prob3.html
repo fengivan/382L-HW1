@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> HW1 Problem 3</title>
+        
+        <style>
+            table, th, td 
+            {
+                border: 2px solid black;
+            }
+            table 
+            {
+                width: 25%;
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="problem3">  </div>
+    </body>
+
+    <script>
+        prob3();
+        init();
+        function prob3()
+        {
+            let linebreak = document.createElement("br");
+            let prob3 = document.getElementById("problem3");
+
+            let probDescription = document.createElement("div");
+            probDescription.innerHTML="Problem 3: Cartesian to Polar Coordinates";
+            prob3.appendChild(probDescription);
+            prob3.appendChild(linebreak.cloneNode(true));
+
+            let xdescription=document.createElement("label");
+            xdescription.innerHTML="Enter X Position: ";
+            let xInput=document.createElement("input");
+            xInput.setAttribute("type", "text");
+            xInput.id="xval";
+            xInput.value=1.5;
+            prob3.appendChild(xdescription);
+            prob3.appendChild(xInput);
+            prob3.appendChild(linebreak.cloneNode(true));
+
+            let ydescription=document.createElement("label");
+            ydescription.innerHTML="Enter Y Position: ";
+            let yInput=document.createElement("input");
+            yInput.id="yval";
+            yInput.setAttribute("type", "text");
+            yInput.value=8;
+            prob3.appendChild(ydescription);
+            prob3.appendChild(yInput);
+            prob3.appendChild(linebreak.cloneNode(true));
+
+            let calculateBtn = document.createElement("button");
+            calculateBtn.innerHTML = "Calculate";
+            calculateBtn.addEventListener("click", fillTable);
+            prob3.appendChild(calculateBtn);
+            
+            let clearBtn = document.createElement("button");
+            clearBtn.innerHTML="Clear";
+            clearBtn.addEventListener("click", clear);
+            prob3.appendChild(clearBtn);
+        }
+
+        function init()
+        {
+            fillTable(1,0);
+            fillTable(1,1);
+            fillTable(0,1);
+            fillTable(-1,1);
+            fillTable(-1,0);
+            fillTable(-1,-1);
+            fillTable(0,0);
+            fillTable(0,-1);
+            fillTable(1,-1);
+        }
+
+        function clear()
+        {
+            if(document.getElementById("table"))
+            {
+                document.getElementById("table").remove();
+            }
+        }
+
+        function fillTable(initX, initY)
+        {
+            let prob3 = document.getElementById("problem3");
+            let x;
+            let y;
+            if(isNaN(initX)||isNaN(initY))
+            {
+                x=parseFloat(document.getElementById("xval").value);
+                y=parseFloat(document.getElementById("yval").value);
+            }
+            else
+            {
+                x=initX;
+                y=initY;
+            }
+           
+            let table=document.getElementById("table")
+            if(!table)
+            {
+                table = document.createElement("table");
+                table.id="table";
+                let header=document.createElement("tr");
+                let xHead = document.createElement("th");
+                xHead.innerHTML="X";
+                header.appendChild(xHead);
+                let yHead=document.createElement("th");
+                yHead.innerHTML="Y";
+                header.appendChild(yHead);
+                let thetaHead=document.createElement("th");
+                thetaHead.innerHTML="theta";
+                header.appendChild(thetaHead);
+                let rHead = document.createElement("th");
+                rHead.innerHTML= "r";
+                header.appendChild(rHead);
+                table.appendChild(header);
+                prob3.appendChild(table);
+            }
+            
+            let row= document.createElement("tr");
+            let xBox=document.createElement("td");
+            let yBox=document.createElement("td");
+            let thetaBox=document.createElement("td");
+            let rBox = document.createElement("td");
+            xBox.innerHTML=x;
+            yBox.innerHTML=y;
+            thetaBox.innerHTML=getTheta(x,y).toFixed(5);;
+            rBox.innerHTML=Math.sqrt(x*x+y*y).toFixed(5);;
+            row.appendChild(xBox);
+            row.appendChild(yBox);
+            row.appendChild(thetaBox);
+            row.appendChild(rBox);
+            table.appendChild(row);
+        }
+
+        function getTheta(x,y)
+        {
+            if(x>0)
+                return Math.atan(y/x);
+
+            if(x<0)
+            {
+                if(y>0)
+                    return Math.atan(y/x)+Math.PI;
+                if(y<0)
+                    return Math.atan(y/x)-Math.PI;
+                if(y==0)
+                    return Math.PI;
+            }
+            if(x==0)
+            {
+                if(y>0)
+                    return Math.PI/2;
+                if(y<0)
+                    return -Math.PI/2;
+                if(y==0)
+                    return 0;
+            }
+        }
+        
+    </script>
+</html>
